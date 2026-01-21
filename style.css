@@ -1,0 +1,334 @@
+html {    
+    font-size: 20px;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000000 url('pictures/background.png') no-repeat center center;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+body {
+    margin: 0;
+    font-family: 'Quicksand', sans-serif;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100dvh;
+    box-sizing: border-box;
+    overflow: hidden;
+    padding-top: constant(safe-area-inset-top);
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: constant(safe-area-inset-bottom);
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+.card {
+    position: relative;
+    padding: 40px 40px 80px;
+    border-radius: 16px;
+    max-width: 800px;
+    width: 90%;
+    text-align: center;
+}
+
+#buttons {
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 120px;
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    font-size: 1.375rem;
+    line-height: 1.4;
+    margin-bottom: 30px;
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    70% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+button.answer {
+    font-size: 2rem;
+    position: relative;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: 'Gaegu';
+    opacity: 0;
+    transform: scale(0);
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+button.answer.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+button.answer:hover {
+    transform: scale(1.1);
+}
+
+button.answer.yes {
+    color: #43FF8E;
+}
+
+button.answer.no {
+    color: #FE6868;
+}
+
+/* Кнопка restart */
+#restart-btn {
+    position: fixed;
+    bottom: calc(20px + env(safe-area-inset-bottom));
+    left: 50%;
+    transform: translateX(-50%);
+
+    padding: 0;
+    font-size: 1rem;
+    border: none;
+    background: none;
+    color: white;
+    cursor: pointer;
+    font-family: 'Quicksand';
+    z-index: 10;
+}
+
+#restart-btn:hover {
+    opacity: 0.8;
+}
+
+/* Вступительный экран */
+#intro-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+#intro-title {
+    font-family: 'Gaegu';
+    font-size: 3rem;
+    color: #AAD5E9;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+#start-btn {
+    padding: 0;
+    font-size: 1.875rem;
+    border: none;
+    background: none;
+    color: #F3E84F;
+    cursor: pointer;
+    font-family: 'Gaegu';
+
+}
+
+#start-btn:hover {
+    opacity: 0.8;
+}
+
+.result-card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+    flex-wrap: nowrap;
+}
+
+.result-card-container {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: transform 0.6s ease, opacity 0.6s ease;
+}
+
+.result-image {
+    width: 300px;
+    height: 300px;
+    border-radius: 12px;
+    flex-shrink: 0;
+    background-size: cover;
+    background-position: center;
+}
+
+.result-content {
+    flex: 1;
+}
+
+.result-content h2 {
+    margin: 0 0 10px;
+    font-size: 2.5rem;
+    font-family: 'Gaegu';
+    border-bottom: 2px solid transparent;
+    text-align: justify;
+}
+
+.result-content p {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin: 0 0 10px;
+    opacity: 0.9;
+    text-align: justify;
+}
+
+
+#text {
+    display: block;
+    position: relative;
+    max-width: 700px;
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+}
+
+#text span {
+    position: relative;
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+#final-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #F3E84F;
+    font-family: 'Gaegu', cursive;
+    font-size: 3.75rem;
+    white-space: nowrap;
+    z-index: 100;
+    opacity: 0;
+    transition: opacity 2.0s ease;
+    pointer-events: none;
+}
+
+/* =========================
+   Адаптивность
+   ========================= */
+
+/* Планшеты и небольшие экраны */
+@media (max-width: 900px) {
+    .card {
+        padding: 30px 20px 70px;
+        max-width: 95%;
+    }
+
+    #buttons {
+        gap: 100px;
+    }
+
+    h1 {
+        font-size: 1.25rem;
+    }
+
+    #text {
+        max-width: 100%;
+    }
+
+    .result-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .result-image {
+        width: 220px;
+        height: 220px;
+    }
+
+    .result-content h2 {
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .result-content p {
+        text-align: left;
+    }
+}
+
+/* Мобильные устройства */
+@media (max-width: 600px) {
+    .card {
+        padding: 20px 15px 70px;
+    }
+
+    #buttons {
+        gap: 60px;
+    }
+
+    #intro-title {
+        font-size: 2.125rem;
+        margin-bottom: 30px;
+    }
+
+    #start-btn {
+        font-size: 1.5rem;
+    }
+
+    h1 {
+        font-size: 1.375rem;
+        line-height: 1.4;
+        text-align: center;
+    }
+
+    #text {
+        max-width: 100%;
+    }
+
+    .result-image {
+        width: 180px;
+        height: 180px;
+    }
+
+    .result-content h2 {
+        font-size: 1.625rem;
+    }
+
+    .result-content p {
+        font-size: 0.875rem;
+    }
+
+    #final-overlay {
+        font-size: 2rem;
+        text-align: center;
+        padding: 20px;
+    }
+
+    #restart-btn {
+        font-size: 0.875rem;
+    }
+}
