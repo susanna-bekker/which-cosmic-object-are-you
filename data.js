@@ -24,7 +24,7 @@ const data = {
     "q21": { "text": "Do you feel more comfortable when you have a plan?", "yes": "q22", "no": "q24" },
     "q22": { "text": "Do you believe in aliens?", "yes": "Proxima Centauri b", "no": "q23" },
     "q23": { "text": "Is it important for you to always be in first place?", "yes": "Mercury", "no": "Venus" },
-    "q24": { "text": "Are you emotional and spontaneous?", "yes": "Halley Comet", "no": "q25" },
+    "q24": { "text": "Are you emotional and spontaneous?", "yes": "Halley's Comet", "no": "q25" },
     "q25": { "text": "Are you a risk taker?", "yes": "Asteroid Eros", "no": "Asteroid Ceres" },
     "q26": { "text": "Do you often feel like you don't conform to societal norms?", "yes": "Pluto", "no": "q27" },
     "q27": { "text": "Do you prefer stability and order over chaos and constant change?", "yes": "q28", "no": "q30" },
@@ -133,12 +133,12 @@ Dwarf planet: Ceres is classified as a dwarf planet and makes up about 30% of th
 
 Ice and water: Ceres contains traces of water ice and possibly subsurface water reservoirs.`},
 
-    "Halley Comet": {
+    "Halley's Comet": {
         color: "#B3A0D7",
         image: "pictures/Halley Comet.png",
-        text: `Halley Comet is the most famous short-period comet made of ice, dust, and gas, returning every 75–76 years. It was named after astronomer Edmund Halley, who predicted its return in 1705, marking a significant event in astronomy.
+        text: `Halley's Comet is the most famous short-period comet made of ice, dust, and gas, returning every 75–76 years. It was named after astronomer Edmund Halley, who predicted its return in 1705, marking a significant event in astronomy.
 
-Visible to the naked eye: Halley Comet has been observed for centuries, last seen in 1986.
+Visible to the naked eye: Halley's Comet has been observed for centuries, last seen in 1986.
 
 Spacecraft exploration: In 1986, ESA's Giotto and other spacecraft studied its nucleus.`},
 
