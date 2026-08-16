@@ -16,7 +16,7 @@ body {
 /* Звёздный фон: не масштабируется, только медленно едет за картой */
 #sky {
     position: fixed;
-    inset: -12%;
+    inset: -6%;
     background: #05061c url('pictures/map/sky.webp') no-repeat center center;
     background-size: cover;
     will-change: transform;
@@ -86,8 +86,6 @@ body {
     font-weight: 700;
     color: #F3E84F;
     white-space: nowrap;
-    -webkit-text-stroke: 0.03em currentColor;
-    paint-order: stroke fill;
 }
 
 /* ===== Результаты ===== */
@@ -109,8 +107,6 @@ body {
     font-family: 'Gaegu', cursive;
     font-weight: 700;
     white-space: nowrap;
-    -webkit-text-stroke: 0.02em currentColor;
-    paint-order: stroke fill;
 }
 
 .object-rule {
@@ -134,16 +130,13 @@ body {
 
 /* ===== YES / NO ===== */
 
-/* Подписи на постере заметно жирнее обычного Gaegu и лежат поверх стрелки */
+/* Подпись стоит в разрыве стрелки, поэтому обводка и подложка не нужны */
 .answer-label {
     position: absolute;
     font-family: 'Gaegu', cursive;
     font-weight: 700;
     line-height: 1;
     white-space: nowrap;
-    -webkit-text-stroke: 0.04em currentColor;
-    paint-order: stroke fill;
-    text-shadow: 0 0 0.1em #05061c, 0 0 0.1em #05061c, 0 0 0.2em #05061c, 0 0 0.35em #05061c;
 }
 
 .answer-label.yes {

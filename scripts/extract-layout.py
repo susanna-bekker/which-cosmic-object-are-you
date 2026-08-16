@@ -101,9 +101,12 @@ for box in borders:
     if qid is None:
         problems.append(f"a box holds text that is in no question: {text[:60]!r}")
         continue
+    # the text is inset from the dotted border; keep that padding
+    left = min(l["bbox"][0] for l in inside)
+    right = max(l["bbox"][2] for l in inside)
     question_out[qid] = {
         "box": [r2(r.x0), r2(r.y0), r2(r.x1 - r.x0), r2(r.y1 - r.y0)],
-        "top": r2(inside[0]["bbox"][1]),
+        "text": [r2(left), r2(inside[0]["bbox"][1]), r2(right - left)],
         "size": r2(max(s["size"] for l in inside for s in l["spans"])),
         "lead": lead(inside),
     }
@@ -209,6 +212,15 @@ leading = next(lead(paragraphs[0][1]["lines"])
 
 # ---------- YES / NO, START HERE ----------
 
+# Each label is stamped over its arrow as a small opaque picture, which is what
+# breaks the line behind the word. We keep those rectangles so the map can cut
+# the same gap out of the arrows.
+stamps = {}
+for image in page.get_image_info():
+    b = image["bbox"]
+    if image["width"] < 250 and image["height"] < 250:
+        stamps[tuple(round(v) for v in b)] = b       # каждая нарисована дважды
+
 labels = []
 for b in blocks:
     key = norm(block_text(b))
@@ -216,12 +228,22 @@ for b in blocks:
         continue
     x0, y0, x1, y1 = b["bbox"]
     direction = b["lines"][0]["dir"]        # подписи повёрнуты вдоль стрелки
-    labels.append({
+    label = {
         "t": "YES!" if key == "yes1" else key.upper(),
         "box": [r2(x0), r2(y0), r2(x1 - x0), r2(y1 - y0)],
         "size": r2(block_size(b)),
         "a": r2(math.degrees(math.atan2(direction[1], direction[0]))),
-    })
+    }
+
+    cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
+    near = [s for s in stamps.values()
+            if s[0] - 40 < cx < s[2] + 40 and s[1] - 40 < cy < s[3] + 40]
+    if near:
+        s = min(near, key=lambda s: ((s[0] + s[2]) / 2 - cx) ** 2 + ((s[1] + s[3]) / 2 - cy) ** 2)
+        label["gap"] = [r2(s[0]), r2(s[1]), r2(s[2] - s[0]), r2(s[3] - s[1])]
+    else:
+        problems.append(f"no gap in the arrow behind the {label['t']} at {round(x0)},{round(y0)}")
+    labels.append(label)
 
 start = None
 for b in blocks:

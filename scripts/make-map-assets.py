@@ -20,7 +20,7 @@ from PIL import Image
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "pictures", "map")
 OBJECT_PX = 640          # ровно 1:1 на карте в масштабе 100%
-SKY_PX = 1754
+SKY_PX = 3508            # как исходник: фон не должен растягиваться на экране
 
 
 def results():
@@ -51,7 +51,7 @@ for name, result in results().items():
 
 sky = Image.open(os.path.join(ROOT, "pictures", "background.png")).convert("RGB")
 sky.resize((SKY_PX, round(sky.height * SKY_PX / sky.width)), Image.LANCZOS).save(
-    os.path.join(OUT, "sky.webp"), quality=76, method=6)
+    os.path.join(OUT, "sky.webp"), quality=82, method=6)
 total += os.path.getsize(os.path.join(OUT, "sky.webp"))
 
 print(f"Wrote {len(os.listdir(OUT))} files to pictures/map/, {total / 1024 / 1024:.1f} MB in total")

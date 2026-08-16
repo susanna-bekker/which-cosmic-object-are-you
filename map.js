@@ -47,18 +47,41 @@ function add(tag, className, parent = world) {
 
 /* ===== ARROWS ===== */
 
-const svg = document.createElementNS(SVG_NS, "svg");
-svg.id = "arrows";
-svg.setAttribute("viewBox", `0 0 ${WORLD_W} ${WORLD_H}`);
-svg.setAttribute("width", WORLD_W);
-svg.setAttribute("height", WORLD_H);
-svg.setAttribute("aria-hidden", "true");
-for (const arrow of mapLayout.arrows) {
-    const path = document.createElementNS(SVG_NS, "path");
-    path.setAttribute("d", arrow.d);
-    path.setAttribute("class", arrow.c === "y" ? "arrow-yes" : "arrow-no");
-    svg.appendChild(path);
+function svgNode(tag, attributes) {
+    const node = document.createElementNS(SVG_NS, tag);
+    for (const [name, value] of Object.entries(attributes)) node.setAttribute(name, value);
+    return node;
 }
+
+const svg = svgNode("svg", {
+    id: "arrows",
+    viewBox: `0 0 ${WORLD_W} ${WORLD_H}`,
+    width: WORLD_W,
+    height: WORLD_H,
+    "aria-hidden": "true",
+});
+
+// Every arrow breaks off around its YES/NO, the way the poster stamps the word
+// over the line, so the gaps are cut out of the arrows and the sky shows through.
+const mask = svgNode("mask", { id: "answer-gaps", maskUnits: "userSpaceOnUse", x: 0, y: 0, width: WORLD_W, height: WORLD_H });
+mask.appendChild(svgNode("rect", { x: 0, y: 0, width: WORLD_W, height: WORLD_H, fill: "#fff" }));
+for (const label of mapLayout.labels) {
+    if (!label.gap) continue;
+    const [gx, gy, gw, gh] = label.gap;
+    mask.appendChild(svgNode("rect", { x: gx, y: gy, width: gw, height: gh, fill: "#000" }));
+}
+const defs = svgNode("defs", {});
+defs.appendChild(mask);
+svg.appendChild(defs);
+
+const arrows = svgNode("g", { mask: "url(#answer-gaps)" });
+for (const arrow of mapLayout.arrows) {
+    arrows.appendChild(svgNode("path", {
+        d: arrow.d,
+        class: arrow.c === "y" ? "arrow-yes" : "arrow-no",
+    }));
+}
+svg.appendChild(arrows);
 world.appendChild(svg);
 
 /* ===== QUESTIONS ===== */
@@ -69,7 +92,9 @@ for (const [id, spot] of Object.entries(mapLayout.questions)) {
 
     place(add("div", "question"), spot.box);
     const text = setText(add("div", "question-text"), question.text, spot.size, spot.lead);
-    place(text, [spot.box[0], spot.top, spot.box[2]]);
+    // a few units of slack, so a hair of rounding cannot break a line early
+    const [left, top, width] = spot.text;
+    place(text, [left - 3, top, width + 6]);
 }
 
 /* ===== START HERE ===== */
@@ -193,8 +218,8 @@ function apply() {
     clamp();
     world.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
     // фон едет медленнее карты, но не дальше своего запаса по краям
-    const limitX = innerWidth * 0.1;
-    const limitY = innerHeight * 0.1;
+    const limitX = innerWidth * 0.05;
+    const limitY = innerHeight * 0.05;
     const skyX = Math.max(-limitX, Math.min(limitX, x * SKY_PARALLAX));
     const skyY = Math.max(-limitY, Math.min(limitY, y * SKY_PARALLAX));
     sky.style.transform = `translate3d(${skyX}px, ${skyY}px, 0)`;
