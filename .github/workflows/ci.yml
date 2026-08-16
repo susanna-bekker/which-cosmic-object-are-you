@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+
+      - name: Check JavaScript syntax
+        run: |
+          node --check data.js
+          node --check script.js
+
+      - name: Check the quiz data
+        run: node scripts/check-quiz.js
+
+      - name: Check assets and element ids
+        run: node scripts/check-assets.js

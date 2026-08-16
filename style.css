@@ -75,7 +75,7 @@ button.answer {
     border: none;
     background: none;
     cursor: pointer;
-    font-family: 'Gaegu';
+    font-family: 'Gaegu', cursive;
     opacity: 0;
     transform: scale(0);
     transition: transform 0.4s ease, opacity 0.4s ease;
@@ -111,7 +111,7 @@ button.answer.no {
     background: none;
     color: white;
     cursor: pointer;
-    font-family: 'Quicksand';
+    font-family: 'Quicksand', sans-serif;
     z-index: 10;
 }
 
@@ -133,7 +133,7 @@ button.answer.no {
 }
 
 #intro-title {
-    font-family: 'Gaegu';
+    font-family: 'Gaegu', cursive;
     font-size: 3rem;
     color: #AAD5E9;
     margin-bottom: 40px;
@@ -147,7 +147,7 @@ button.answer.no {
     background: none;
     color: #F3E84F;
     cursor: pointer;
-    font-family: 'Gaegu';
+    font-family: 'Gaegu', cursive;
 
 }
 
@@ -186,7 +186,7 @@ button.answer.no {
 .result-content h2 {
     margin: 0 0 10px;
     font-size: 2.5rem;
-    font-family: 'Gaegu';
+    font-family: 'Gaegu', cursive;
     border-bottom: 2px solid transparent;
     text-align: justify;
 }
