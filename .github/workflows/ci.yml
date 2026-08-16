@@ -20,6 +20,8 @@ jobs:
         run: |
           node --check data.js
           node --check script.js
+          node --check map.js
+          node --check map-layout.js
 
       - name: Check the quiz data
         run: node scripts/check-quiz.js
@@ -27,5 +29,5 @@ jobs:
       - name: Check assets and element ids
         run: node scripts/check-assets.js
 
-      - name: Check the quiz map is up to date
-        run: node scripts/build-map.js --check
+      - name: Check the map still matches the quiz
+        run: node scripts/check-map.js

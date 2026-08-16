@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#000000">
+  <title>The whole quiz map</title>
+  <link rel="stylesheet" href="map.css">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- Звёздный фон, двигается медленнее карты -->
+  <div id="sky"></div>
+
+  <!-- Карта: весь квиз одной картинкой, которую можно двигать и приближать -->
+  <div id="viewport">
+    <div id="world"></div>
+  </div>
+
+  <a id="back-link" href="index.html">&larr; Take the quiz</a>
+
+  <div id="zoom-controls">
+    <button type="button" id="zoom-in" title="Zoom in">+</button>
+    <button type="button" id="zoom-out" title="Zoom out">&minus;</button>
+    <button type="button" id="zoom-fit" title="Show the whole map">Fit</button>
+  </div>
+
+  <div id="hint">Drag to move &middot; scroll or pinch to zoom</div>
+
+  <script src="data.js"></script>
+  <script src="map-layout.js"></script>
+  <script src="map.js"></script>
+
+</body>
+
+</html>
