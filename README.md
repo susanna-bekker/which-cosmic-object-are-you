@@ -22,10 +22,11 @@ python3 -m http.server
 | `style.css` | Styles |
 | `script.js` | Quiz logic and animations |
 | `data.js` | Questions, answers and result descriptions |
-| `pictures/` | Result images |
+| `names.js` | Keeps object names from breaking over two lines |
+| `pictures/` | Result images, full size |
+| `pictures/small/` | Small copies of the images, used by both pages |
 | `map.html`, `map.css`, `map.js` | The quiz map page |
 | `map-layout.js` | Where everything sits on the map |
-| `pictures/map/` | Small copies of the images, for the map |
 
 To edit the quiz, change `data.js`: `data` holds the questions (each `yes`/`no` points to the next question or a result name), and `results` holds each result's image, colour and text.
 
@@ -40,7 +41,9 @@ Two one-off tools rebuild the parts that cannot come from `data.js`. They need P
 ```bash
 pip install pymupdf pillow
 python3 scripts/extract-layout.py     # map-layout.js, from the printed poster
-python3 scripts/make-map-assets.py    # pictures/map/, small copies of the images
+python3 scripts/make-map-assets.py    # pictures/small/, small copies of the images
 ```
 
-`extract-layout.py` reads `docs/poster.pdf`, which is not in the repository because it is ~50 MB — you only need it if the poster's layout changes. `make-map-assets.py` shrinks `pictures/` (over 120 MB of 2048px PNGs) into ~2.6 MB of WebP, since the map shows all 32 objects at once; the full-size PNG is still loaded when you zoom right into an object.
+`extract-layout.py` reads `docs/poster.pdf`, which is not in the repository because it is ~50 MB — you only need it if the poster's layout changes.
+
+`make-map-assets.py` shrinks `pictures/` (over 120 MB of 2048px PNGs, plus a 13 MB background) into ~2.7 MB of WebP under `pictures/small/`. Both pages load those: the map because it shows all 32 objects at once, the quiz because a result card is never wider than 300px. The full-size PNG is still fetched when you zoom right into an object on the map, so `pictures/` stays the original.

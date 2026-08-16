@@ -85,9 +85,12 @@ function render() {
         document.querySelectorAll("button.answer").forEach(b => b.remove());
 
         // Preload the result image while showing "You are..."
+        // Картинка берётся уменьшенная: карточка всё равно не шире 300px,
+        // а полноразмерный PNG весит несколько мегабайт.
         const result = results[current];
+        const picture = `pictures/small/${current}.webp`;
         const preloadImg = new Image();
-        preloadImg.src = result.image;
+        preloadImg.src = picture;
 
         // Создаем временный элемент для "You are..."
         const overlayText = document.createElement("div");
@@ -126,15 +129,19 @@ function render() {
 
                     container.innerHTML = `
                         <div class="result-card">
-                            <div class="result-image" style="background-image:url('${result.image}')"></div>
+                            <div class="result-image"></div>
                             <div class="result-content">
                                 <h2 style="color:${result.color}; border-bottom:2px solid ${result.color};">
-                                    ${current}
+                                    ${keepNamesWhole(current)}
                                 </h2>
-                                ${result.text.split("\n\n").map(p => `<p>${p}</p>`).join("")}
+                                ${result.text.split("\n\n").map(p => `<p>${keepNamesWhole(p)}</p>`).join("")}
                             </div>
                         </div>
                     `;
+
+                    // путь ставим отдельно: в имени бывает апостроф ("Halley's Comet"),
+                    // который ломает url('...') внутри атрибута style
+                    container.querySelector(".result-image").style.backgroundImage = `url("${picture}")`;
 
                     text.appendChild(container);
 

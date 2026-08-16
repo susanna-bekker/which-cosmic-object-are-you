@@ -3,7 +3,8 @@ html {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background: #000000 url('pictures/background.png') no-repeat center center;
+    /* та же картинка, что pictures/background.png, но 119 КБ вместо 13 МБ */
+    background: #000000 url('pictures/small/sky.webp') no-repeat center center;
     background-size: cover;
     background-attachment: fixed;
 }

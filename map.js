@@ -116,8 +116,9 @@ function boldPrefix(paragraph, first) {
     return match ? match[1].length : 0;
 }
 
-function paragraph(text, first) {
+function paragraph(source, first) {
     const node = document.createElement("p");
+    const text = keepNamesWhole(source);
     const bold = boldPrefix(text, first);
     if (bold) {
         const strong = document.createElement("b");
@@ -135,7 +136,7 @@ for (const [name, spot] of Object.entries(mapLayout.results)) {
     if (!result) continue;
 
     const image = add("img", "object");
-    image.src = `pictures/map/${name}.webp`;
+    image.src = `pictures/small/${name}.webp`;
     image.alt = name;
     image.loading = "lazy";
     image.decoding = "async";
@@ -282,7 +283,7 @@ function openingView() {
 }
 
 /* ===== ЗАГРУЗКА КАРТИНОК =====
-   Карта показывает уменьшенные копии из pictures/map/, а полноразмерный PNG
+   Карта показывает уменьшенные копии из pictures/small/, а полноразмерный PNG
    подгружается только для того объекта, в который действительно всмотрелись. */
 
 const THUMB_PX = 640;

@@ -17,7 +17,7 @@ body {
 #sky {
     position: fixed;
     inset: -10%;
-    background: #05061c url('pictures/map/sky.webp') no-repeat center center;
+    background: #05061c url('pictures/small/sky.webp') no-repeat center center;
     background-size: cover;
     will-change: transform;
 }

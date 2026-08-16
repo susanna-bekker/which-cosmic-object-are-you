@@ -2,7 +2,7 @@
  * Checks that the map page still matches the quiz:
  *  - every question and result in data.js has a place on the map, and nothing
  *    is left on the map that the quiz no longer has
- *  - every result has a small picture in pictures/map/
+ *  - every result has a small picture in pictures/small/
  *
  * The layout comes from the poster (scripts/extract-layout.py), so editing
  * data.js without redrawing the poster would silently leave a hole in the map.
@@ -33,14 +33,14 @@ compare("question", Object.keys(data), Object.keys(mapLayout.questions || {}));
 compare("result", Object.keys(results), Object.keys(mapLayout.results || {}));
 
 for (const name of Object.keys(mapLayout.results || {})) {
-    const small = path.join("pictures", "map", `${name}.webp`);
+    const small = path.join("pictures", "small", `${name}.webp`);
     if (!fs.existsSync(path.join(root, small))) {
         errors.push(`result "${name}" has no small picture: ${small} (run scripts/make-map-assets.py)`);
     }
 }
 
-if (!fs.existsSync(path.join(root, "pictures", "map", "sky.webp"))) {
-    errors.push("pictures/map/sky.webp is missing (run scripts/make-map-assets.py)");
+if (!fs.existsSync(path.join(root, "pictures", "small", "sky.webp"))) {
+    errors.push("pictures/small/sky.webp is missing (run scripts/make-map-assets.py)");
 }
 
 // one arrow pair and one label per answer

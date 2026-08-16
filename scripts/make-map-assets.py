@@ -1,5 +1,5 @@
 """
-Builds pictures/map/: the small copies the map page loads.
+Builds pictures/small/: the small copies the map page loads.
 
 pictures/ holds 2048px PNGs - fine for one result at a time, but the map shows
 all 32 at once and that is over 120 MB. The map loads these WebP copies instead
@@ -18,7 +18,7 @@ import subprocess
 from PIL import Image
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-OUT = os.path.join(ROOT, "pictures", "map")
+OUT = os.path.join(ROOT, "pictures", "small")
 OBJECT_PX = 640          # ровно 1:1 на карте в масштабе 100%
 SKY_PX = 3508            # как исходник: фон не должен растягиваться на экране
 
@@ -54,4 +54,4 @@ sky.resize((SKY_PX, round(sky.height * SKY_PX / sky.width)), Image.LANCZOS).save
     os.path.join(OUT, "sky.webp"), quality=82, method=6)
 total += os.path.getsize(os.path.join(OUT, "sky.webp"))
 
-print(f"Wrote {len(os.listdir(OUT))} files to pictures/map/, {total / 1024 / 1024:.1f} MB in total")
+print(f"Wrote {len(os.listdir(OUT))} files to pictures/small/, {total / 1024 / 1024:.1f} MB in total")
