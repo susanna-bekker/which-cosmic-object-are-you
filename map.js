@@ -139,6 +139,7 @@ for (const [name, spot] of Object.entries(mapLayout.results)) {
     image.alt = name;
     image.loading = "lazy";
     image.decoding = "async";
+    image.draggable = false;        // иначе картинка уезжает вместо карты
     image.dataset.full = result.image;
     place(image, spot.image);
     upgradable.push(image);
@@ -249,14 +250,22 @@ function centreOn([bx, by, bw, bh], on) {
     apply();
 }
 
-// On a phone the whole map fits into a couple of unreadable centimetres, so
-// start at the first question instead and leave "Fit" for the overview.
+// The map opens where the quiz does: START HERE and the first question in the
+// middle of the screen, close enough to read. "Fit" then shows the whole thing.
 function openingView() {
     const first = mapLayout.questions.start;
-    const fills = bounds.w * fitScale() > innerWidth * 0.5
-        && bounds.h * fitScale() > innerHeight * 0.5;
-    if (fills || !first) fit();
-    else centreOn(first.box, Math.min(MAX_SCALE, 15 / first.size));
+    if (!first) {
+        fit();
+        return;
+    }
+    const [bx, by, bw, bh] = first.box;
+    const start = mapLayout.start;
+    const top = start ? Math.min(by, start.at[1]) : by;
+    // the first question takes about a quarter of the screen: readable, with
+    // both answers and a few objects around it still in view
+    const wanted = (innerWidth * 0.27) / bw;
+    const scale = Math.max(fitScale(), Math.min(0.42, Math.max(0.22, wanted)));
+    centreOn([bx, top, bw, by + bh - top], scale);
 }
 
 /* ===== ЗАГРУЗКА КАРТИНОК =====
@@ -283,6 +292,8 @@ function upgradeImages() {
 
 const pointers = new Map();
 let pinch = null;
+
+viewport.addEventListener("dragstart", (event) => event.preventDefault());
 
 viewport.addEventListener("pointerdown", (event) => {
     viewport.setPointerCapture(event.pointerId);

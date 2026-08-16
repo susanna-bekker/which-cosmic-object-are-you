@@ -40,12 +40,21 @@ body {
     cursor: grabbing;
 }
 
+/* Карту таскают целиком, поэтому ни картинки, ни текст сами не выделяются
+   и не перетаскиваются под курсором */
 #world {
     position: absolute;
     top: 0;
     left: 0;
     transform-origin: 0 0;
     will-change: transform;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+#world img {
+    -webkit-user-drag: none;
+    pointer-events: none;
 }
 
 /* ===== Стрелки ===== */
