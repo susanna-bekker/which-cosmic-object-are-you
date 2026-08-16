@@ -155,9 +155,13 @@ button.answer.no {
     opacity: 0.8;
 }
 
-/* Ссылка на карту квиза */
+/* Ссылка на карту квиза — внизу экрана, как кнопка Restart */
 #map-link {
-    margin-top: 40px;
+    position: fixed;
+    bottom: calc(20px + env(safe-area-inset-bottom));
+    left: 50%;
+    transform: translateX(-50%);
+
     font-family: 'Quicksand', sans-serif;
     font-size: 0.7rem;
     color: rgba(255, 255, 255, 0.65);

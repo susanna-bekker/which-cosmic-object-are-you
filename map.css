@@ -16,7 +16,7 @@ body {
 /* Звёздный фон: не масштабируется, только медленно едет за картой */
 #sky {
     position: fixed;
-    inset: -6%;
+    inset: -10%;
     background: #05061c url('pictures/map/sky.webp') no-repeat center center;
     background-size: cover;
     will-change: transform;

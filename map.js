@@ -14,7 +14,7 @@ const SVG_NS = "http://www.w3.org/2000/svg";
 const [WORLD_W, WORLD_H] = mapLayout.world;
 const LEADING = mapLayout.leading;          // расстояние между строками текста
 const MAX_SCALE = 2.5;
-const SKY_PARALLAX = 0.18;
+const SKY_DRIFT = 0.09;         // запас фона по краям экрана (#sky, inset -10%)
 
 world.style.width = `${WORLD_W}px`;
 world.style.height = `${WORLD_H}px`;
@@ -205,24 +205,37 @@ let y = 0;
 
 const fitScale = () => Math.min(innerWidth / bounds.w, innerHeight / bounds.h);
 
-function clamp() {
+// how far the map may be dragged before its edge would leave the screen
+function panRange() {
     const edge = 80;
-    const minX = edge - (bounds.x + bounds.w) * scale;
-    const maxX = innerWidth - edge - bounds.x * scale;
-    const minY = edge - (bounds.y + bounds.h) * scale;
-    const maxY = innerHeight - edge - bounds.y * scale;
+    return {
+        minX: edge - (bounds.x + bounds.w) * scale,
+        maxX: innerWidth - edge - bounds.x * scale,
+        minY: edge - (bounds.y + bounds.h) * scale,
+        maxY: innerHeight - edge - bounds.y * scale,
+    };
+}
+
+function clamp() {
+    const { minX, maxX, minY, maxY } = panRange();
     x = minX > maxX ? (minX + maxX) / 2 : Math.min(maxX, Math.max(minX, x));
     y = minY > maxY ? (minY + maxY) / 2 : Math.min(maxY, Math.max(minY, y));
+}
+
+// The sky drifts across its spare margin as you cross the map: measuring the
+// drift against how far the map can travel keeps it moving everywhere, rather
+// than running out in the first screenful.
+function drift(value, min, max, room) {
+    if (max <= min) return 0;
+    return (((value - min) / (max - min)) * 2 - 1) * room;
 }
 
 function apply() {
     clamp();
     world.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
-    // фон едет медленнее карты, но не дальше своего запаса по краям
-    const limitX = innerWidth * 0.05;
-    const limitY = innerHeight * 0.05;
-    const skyX = Math.max(-limitX, Math.min(limitX, x * SKY_PARALLAX));
-    const skyY = Math.max(-limitY, Math.min(limitY, y * SKY_PARALLAX));
+    const { minX, maxX, minY, maxY } = panRange();
+    const skyX = drift(x, minX, maxX, innerWidth * SKY_DRIFT);
+    const skyY = drift(y, minY, maxY, innerHeight * SKY_DRIFT);
     sky.style.transform = `translate3d(${skyX}px, ${skyY}px, 0)`;
     upgradeImages();
 }
@@ -261,10 +274,10 @@ function openingView() {
     const [bx, by, bw, bh] = first.box;
     const start = mapLayout.start;
     const top = start ? Math.min(by, start.at[1]) : by;
-    // the first question takes about a quarter of the screen: readable, with
-    // both answers and a few objects around it still in view
-    const wanted = (innerWidth * 0.27) / bw;
-    const scale = Math.max(fitScale(), Math.min(0.42, Math.max(0.22, wanted)));
+    // the first question takes about a third of the screen: readable, with both
+    // answers and a few objects around it still in view
+    const wanted = (innerWidth * 0.32) / bw;
+    const scale = Math.max(fitScale(), Math.min(0.5, Math.max(0.26, wanted)));
     centreOn([bx, top, bw, by + bh - top], scale);
 }
 
