@@ -126,7 +126,7 @@ Water Evidence: Mars has signs of ancient water flow and polar ice caps, suggest
 
     "Asteroid Ceres": {
         color: "#A598BD",
-        image: "pictures/Ceres.png",
+        image: "pictures/Asteroid Ceres.png",
         text: `Ceres is the largest object in the asteroid belt between Mars and Jupiter and was the first asteroid discovered (in 1801). In 2015, NASA's Dawn spacecraft became the first to orbit Ceres, providing detailed study.
 
 Dwarf planet: Ceres is classified as a dwarf planet and makes up about 30% of the total mass of the asteroid belt.
