@@ -155,6 +155,20 @@ button.answer.no {
     opacity: 0.8;
 }
 
+/* Ссылка на карту квиза */
+#map-link {
+    margin-top: 40px;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.65);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+#map-link:hover {
+    color: #ffffff;
+}
+
 .result-card {
     display: flex;
     flex-direction: row;

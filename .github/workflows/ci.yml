@@ -26,3 +26,6 @@ jobs:
 
       - name: Check assets and element ids
         run: node scripts/check-assets.js
+
+      - name: Check the quiz map is up to date
+        run: node scripts/build-map.js --check
