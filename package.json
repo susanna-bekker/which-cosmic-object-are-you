@@ -1,0 +1,20 @@
+{
+  "name": "which-cosmic-object-are-you",
+  "version": "1.0.0",
+  "description": "A yes/no quiz that matches you with a cosmic object",
+  "private": true,
+  "scripts": {
+    "lint:js": "eslint .",
+    "lint:css": "stylelint \"**/*.css\"",
+    "lint:html": "html-validate index.html",
+    "check:quiz": "node scripts/check-quiz.js",
+    "check:assets": "node scripts/check-assets.js",
+    "test": "npm run lint:js && npm run lint:css && npm run lint:html && npm run check:quiz && npm run check:assets"
+  },
+  "devDependencies": {
+    "eslint": "^9.15.0",
+    "html-validate": "^9.0.0",
+    "stylelint": "^16.10.0",
+    "stylelint-config-standard": "^36.0.1"
+  }
+}

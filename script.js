@@ -90,7 +90,6 @@ function render() {
         preloadImg.src = result.image;
 
         // Создаем временный элемент для "You are..."
-        const startBtn = introScreen.querySelector("#start-btn");
         const overlayText = document.createElement("div");
         overlayText.textContent = "You are...";
         overlayText.style.position = "fixed";
