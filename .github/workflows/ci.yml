@@ -19,10 +19,16 @@ jobs:
       - name: Check JavaScript syntax
         run: |
           node --check data.js
+          node --check names.js
           node --check script.js
+          node --check map.js
+          node --check map-layout.js
 
       - name: Check the quiz data
         run: node scripts/check-quiz.js
 
       - name: Check assets and element ids
         run: node scripts/check-assets.js
+
+      - name: Check the map still matches the quiz
+        run: node scripts/check-map.js

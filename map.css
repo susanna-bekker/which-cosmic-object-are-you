@@ -1,0 +1,234 @@
+/* Карта квиза: один большой холст, который двигают и приближают.
+   Все размеры внутри #world заданы в единицах карты (как на постере),
+   масштаб делает transform. */
+
+html,
+body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+    background: #05061c;
+    color: #AAD5E9;
+    font-family: 'Quicksand', sans-serif;
+    overscroll-behavior: none;
+}
+
+/* Звёздный фон: не масштабируется, только медленно едет за картой */
+#sky {
+    position: fixed;
+    inset: -10%;
+    background: #05061c url('pictures/small/sky.webp') no-repeat center center;
+    background-size: cover;
+    will-change: transform;
+}
+
+#sky::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(5, 6, 28, 0) 30%, rgba(5, 6, 28, 0.55) 100%);
+}
+
+#viewport {
+    position: fixed;
+    inset: 0;
+    cursor: grab;
+    touch-action: none;
+}
+
+#viewport.dragging {
+    cursor: grabbing;
+}
+
+/* Карту таскают целиком, поэтому ни картинки, ни текст сами не выделяются
+   и не перетаскиваются под курсором */
+#world {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-origin: 0 0;
+    will-change: transform;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+#world img {
+    -webkit-user-drag: none;
+    pointer-events: none;
+}
+
+/* ===== Стрелки ===== */
+
+#arrows {
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: visible;
+}
+
+.arrow-yes {
+    fill: #43FF8E;
+}
+
+.arrow-no {
+    fill: #FE6868;
+}
+
+/* ===== Вопросы ===== */
+
+.question {
+    position: absolute;
+    box-sizing: border-box;
+    border: 5px dotted #BFF2FF;
+}
+
+.question-text {
+    position: absolute;
+    text-align: center;
+    color: #BFF2FF;
+    font-weight: 500;
+}
+
+.start-here {
+    position: absolute;
+    font-family: 'Gaegu', cursive;
+    font-weight: 700;
+    color: #F3E84F;
+    white-space: nowrap;
+}
+
+/* ===== Результаты ===== */
+
+.object {
+    position: absolute;
+    display: block;
+}
+
+/* Gaegu в браузере сидит в строке чуть выше, чем в постере, поэтому опускаем */
+.object-title,
+.start-here {
+    transform: translateY(0.11em);
+}
+
+.object-title {
+    position: absolute;
+    margin: 0;
+    font-family: 'Gaegu', cursive;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.object-rule {
+    position: absolute;
+}
+
+.object-text {
+    position: absolute;
+    text-align: justify;
+    color: #AAD5E9;
+    font-weight: 400;
+}
+
+.object-text p {
+    margin: 0;
+}
+
+.object-text b {
+    font-weight: 700;
+}
+
+/* ===== YES / NO ===== */
+
+/* Подпись стоит в разрыве стрелки, поэтому обводка и подложка не нужны */
+.answer-label {
+    position: absolute;
+    font-family: 'Gaegu', cursive;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.answer-label.yes {
+    color: #43FF8E;
+}
+
+.answer-label.no {
+    color: #FE6868;
+}
+
+/* ===== Управление ===== */
+
+#back-link {
+    position: fixed;
+    top: calc(16px + env(safe-area-inset-top));
+    left: 16px;
+    z-index: 10;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: rgba(5, 6, 28, 0.85);
+}
+
+#back-link:hover {
+    color: #ffffff;
+}
+
+#zoom-controls {
+    position: fixed;
+    right: 16px;
+    bottom: calc(16px + env(safe-area-inset-bottom));
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+#zoom-controls button {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 999px;
+    background: rgba(5, 6, 28, 0.85);
+    color: rgba(255, 255, 255, 0.75);
+    font-family: 'Quicksand', sans-serif;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+#zoom-controls button:hover {
+    color: #ffffff;
+    background: rgba(5, 6, 28, 0.8);
+}
+
+#zoom-controls #zoom-fit {
+    font-size: 13px;
+}
+
+#hint {
+    position: fixed;
+    left: 50%;
+    bottom: calc(16px + env(safe-area-inset-bottom));
+    transform: translateX(-50%);
+    z-index: 10;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.5);
+    pointer-events: none;
+    transition: opacity 0.6s ease;
+}
+
+#hint.hidden {
+    opacity: 0;
+}
+
+@media (max-width: 600px) {
+    #hint {
+        font-size: 11px;
+    }
+
+    #zoom-controls button {
+        width: 36px;
+        height: 36px;
+    }
+}

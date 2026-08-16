@@ -1,1 +1,5 @@
 .DS_Store
+
+# The printed poster: ~50 MB, kept out of git for now.
+# scripts/extract-layout.py reads it, nothing on the site does.
+docs/poster.pdf
